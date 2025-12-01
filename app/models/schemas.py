@@ -4,7 +4,7 @@ This module defines the data models used by the REST API endpoints.
 
 Requirements: 3.1, 3.2, 3.3, 5.1, 5.4
 """
-from typing import Any
+from typing import Any, Dict, List
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -26,7 +26,7 @@ class SourceReference(BaseModel):
     Requirements: 1.2, 3.3
     """
     content: str = Field(..., description="The source content chunk")
-    metadata: dict[str, Any] = Field(default_factory=dict, description="Source metadata")
+    metadata: Dict[str, Any] = Field(default_factory=dict, description="Source metadata")
 
 
 class ChatResponse(BaseModel):
@@ -35,7 +35,7 @@ class ChatResponse(BaseModel):
     Requirements: 3.3
     """
     answer: str = Field(..., description="The generated answer")
-    sources: list[SourceReference] = Field(default_factory=list, description="Source references")
+    sources: List[SourceReference] = Field(default_factory=list, description="Source references")
 
 
 class ProcessRequest(BaseModel):

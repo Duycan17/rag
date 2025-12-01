@@ -6,7 +6,7 @@ question answering using Gemini 2.5 Flash as the LLM.
 Requirements: 6.1, 6.2, 6.3, 6.4
 """
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Dict, List
 from uuid import UUID
 
 from langchain_core.prompts import ChatPromptTemplate
@@ -22,7 +22,7 @@ from app.services.embedding_service import EmbeddingService
 class RAGResponse:
     """Response from the RAG chain."""
     answer: str
-    sources: list[dict[str, Any]]
+    sources: List[Dict[str, Any]]
     has_context: bool
 
 
@@ -94,7 +94,7 @@ class RAGChain:
         self,
         query: str,
         document_id: UUID
-    ) -> list[SearchResult]:
+    ) -> List[SearchResult]:
         """Retrieve relevant chunks for a query from a specific document.
         
         Args:
@@ -125,7 +125,7 @@ class RAGChain:
         
         return relevant_results
     
-    def _format_context(self, search_results: list[SearchResult]) -> str:
+    def _format_context(self, search_results: List[SearchResult]) -> str:
         """Format search results into context string for the prompt.
         
         Args:
@@ -145,8 +145,8 @@ class RAGChain:
     
     def _format_sources(
         self,
-        search_results: list[SearchResult]
-    ) -> list[dict[str, Any]]:
+        search_results: List[SearchResult]
+    ) -> List[Dict[str, Any]]:
         """Format search results into source references.
         
         Args:

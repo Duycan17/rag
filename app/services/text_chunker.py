@@ -7,6 +7,7 @@ chunks suitable for embedding.
 Requirements: 2.2
 """
 from dataclasses import dataclass
+from typing import List, Optional
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
@@ -18,8 +19,8 @@ class TextChunk:
     """Represents a text chunk with metadata."""
     content: str
     index: int
-    start_char: int | None = None
-    end_char: int | None = None
+    start_char: Optional[int] = None
+    end_char: Optional[int] = None
 
 
 class TextChunker:
@@ -57,7 +58,7 @@ class TextChunker:
         """Get the configured chunk overlap."""
         return self._chunk_overlap
     
-    def chunk_text(self, text: str) -> list[TextChunk]:
+    def chunk_text(self, text: str) -> List[TextChunk]:
         """Split text into chunks.
         
         Uses RecursiveCharacterTextSplitter to split text into overlapping
@@ -83,7 +84,7 @@ class TextChunker:
             for i, chunk in enumerate(chunks)
         ]
     
-    def chunk_text_raw(self, text: str) -> list[str]:
+    def chunk_text_raw(self, text: str) -> List[str]:
         """Split text into chunks and return raw strings.
         
         Convenience method that returns just the chunk strings

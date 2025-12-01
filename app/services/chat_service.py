@@ -6,7 +6,7 @@ requests, validates document ownership, and invokes the RAG chain.
 Requirements: 1.1, 1.2, 1.3, 1.4
 """
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Dict, List
 from uuid import UUID
 
 from supabase import Client, create_client
@@ -19,14 +19,14 @@ from app.chains.rag_chain import RAGChain, RAGResponse
 class SourceReference:
     """Represents a source reference in a chat response."""
     content: str
-    metadata: dict[str, Any]
+    metadata: Dict[str, Any]
 
 
 @dataclass
 class ChatResponse:
     """Response from the chat service."""
     answer: str
-    sources: list[SourceReference]
+    sources: List[SourceReference]
     document_id: UUID
     has_context: bool
 
@@ -73,7 +73,7 @@ class ChatService:
         self,
         document_id: UUID,
         user_id: UUID
-    ) -> dict[str, Any]:
+    ) -> Dict[str, Any]:
         """Validate that a user owns a document.
         
         Args:
@@ -111,8 +111,8 @@ class ChatService:
     
     def _format_sources(
         self,
-        rag_sources: list[dict[str, Any]]
-    ) -> list[SourceReference]:
+        rag_sources: List[Dict[str, Any]]
+    ) -> List[SourceReference]:
         """Format RAG sources into SourceReference objects.
         
         Args:

@@ -6,7 +6,7 @@ retrieving document embeddings using Supabase's pgvector extension.
 Requirements: 2.4, 1.3
 """
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Dict, List, Optional
 from uuid import UUID
 
 from supabase import Client, create_client
@@ -21,15 +21,15 @@ class EmbeddingRecord:
     document_id: UUID
     user_id: UUID
     content: str
-    embedding: list[float] | None
-    metadata: dict[str, Any] | None
+    embedding: Optional[List[float]]
+    metadata: Optional[Dict[str, Any]]
     
 
 @dataclass
 class SearchResult:
     """Represents a similarity search result."""
     content: str
-    metadata: dict[str, Any]
+    metadata: Dict[str, Any]
     similarity: float
 
 
@@ -62,10 +62,10 @@ class SupabaseVectorStore:
         self,
         document_id: UUID,
         user_id: UUID,
-        chunks: list[str],
-        embeddings: list[list[float]],
-        metadata: dict[str, Any] | None = None
-    ) -> list[UUID]:
+        chunks: List[str],
+        embeddings: List[List[float]],
+        metadata: Optional[Dict[str, Any]] = None
+    ) -> List[UUID]:
         """Add document embeddings to the vector store.
         
         Stores chunks with their embeddings and associated metadata.
@@ -114,10 +114,10 @@ class SupabaseVectorStore:
 
     def similarity_search(
         self,
-        query_embedding: list[float],
+        query_embedding: List[float],
         document_id: UUID,
         k: int = 4
-    ) -> list[SearchResult]:
+    ) -> List[SearchResult]:
         """Search for similar chunks within a specific document.
         
         Performs cosine similarity search filtered by document_id to ensure

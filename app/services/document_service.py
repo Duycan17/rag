@@ -8,7 +8,7 @@ Requirements: 2.4, 2.5
 """
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any
+from typing import Any, Dict, Optional
 from uuid import UUID
 
 from supabase import Client, create_client
@@ -38,7 +38,7 @@ class ProcessingResult:
     document_id: UUID
     status: DocumentStatus
     chunks_created: int
-    error_message: str | None = None
+    error_message: Optional[str] = None
 
 
 class DocumentNotFoundError(Exception):
@@ -80,7 +80,7 @@ class DocumentService:
         self._embedding_service = EmbeddingService(settings)
         self._vector_store = SupabaseVectorStore(settings)
     
-    def get_document(self, document_id: UUID, user_id: UUID) -> dict[str, Any]:
+    def get_document(self, document_id: UUID, user_id: UUID) -> Dict[str, Any]:
         """Get document metadata from user_docs table.
         
         Args:
@@ -108,7 +108,7 @@ class DocumentService:
         self,
         document_id: UUID,
         status: DocumentStatus,
-        error_message: str | None = None
+        error_message: Optional[str] = None
     ) -> None:
         """Update document status in user_docs table.
         
@@ -119,7 +119,7 @@ class DocumentService:
             
         Requirements: 2.5
         """
-        update_data: dict[str, Any] = {"status": status.value}
+        update_data: Dict[str, Any] = {"status": status.value}
         if error_message:
             update_data["error_message"] = error_message
         

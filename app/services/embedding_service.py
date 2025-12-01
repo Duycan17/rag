@@ -6,7 +6,7 @@ Google's Generative AI embeddings model.
 Requirements: 2.3
 """
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Dict, List, Optional
 from uuid import UUID
 
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
@@ -18,8 +18,8 @@ from app.config import Settings
 class EmbeddedChunk:
     """Represents a chunk with its embedding."""
     content: str
-    embedding: list[float]
-    metadata: dict[str, Any]
+    embedding: List[float]
+    metadata: Dict[str, Any]
 
 
 class EmbeddingService:
@@ -45,7 +45,7 @@ class EmbeddingService:
             google_api_key=settings.gemini_api_key
         )
     
-    def generate_embedding(self, text: str) -> list[float]:
+    def generate_embedding(self, text: str) -> List[float]:
         """Generate embedding for a single text.
         
         Args:
@@ -58,7 +58,7 @@ class EmbeddingService:
         """
         return self._embeddings.embed_query(text)
     
-    def generate_embeddings(self, texts: list[str]) -> list[list[float]]:
+    def generate_embeddings(self, texts: List[str]) -> List[List[float]]:
         """Generate embeddings for multiple texts.
         
         Args:
@@ -76,11 +76,11 @@ class EmbeddingService:
     
     def embed_chunks_with_metadata(
         self,
-        chunks: list[str],
+        chunks: List[str],
         document_id: UUID,
         user_id: UUID,
-        additional_metadata: dict[str, Any] | None = None
-    ) -> list[EmbeddedChunk]:
+        additional_metadata: Optional[Dict[str, Any]] = None
+    ) -> List[EmbeddedChunk]:
         """Generate embeddings for chunks with metadata.
         
         Creates EmbeddedChunk objects containing the chunk content,

@@ -8,7 +8,7 @@ Requirements: 2.1, 5.2
 import io
 from dataclasses import dataclass
 from enum import Enum
-from typing import BinaryIO
+from typing import BinaryIO, Optional, Tuple
 from uuid import UUID
 
 import httpx
@@ -30,7 +30,7 @@ class ExtractedDocument:
     document_id: UUID
     content: str
     document_type: DocumentType
-    page_count: int | None = None
+    page_count: Optional[int] = None
 
 
 class DocumentDownloadError(Exception):
@@ -175,7 +175,7 @@ class DocumentProcessor:
         self,
         content: bytes,
         document_type: DocumentType
-    ) -> tuple[str, int | None]:
+    ) -> Tuple[str, Optional[int]]:
         """Extract text from document content.
         
         Args:
