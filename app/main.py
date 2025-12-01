@@ -12,6 +12,7 @@ from pydantic import ValidationError as PydanticValidationError
 
 from app.api.chat import router as chat_router
 from app.api.documents import router as documents_router
+from app.api.mcq import router as mcq_router
 from app.api.exceptions import (
     AuthorizationError,
     NotFoundError,
@@ -120,6 +121,7 @@ async def processing_error_handler(
 # Include routers
 app.include_router(chat_router)
 app.include_router(documents_router)
+app.include_router(mcq_router)
 
 
 @app.get("/health")
